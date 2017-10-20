@@ -1,4 +1,4 @@
-package it.unige.dibris.TExpRVJade.examples;
+package it.unige.dibris.TExpRVJade.examples.alt_bit;
 
 import jade.core.AID;
 import jade.core.Agent;
