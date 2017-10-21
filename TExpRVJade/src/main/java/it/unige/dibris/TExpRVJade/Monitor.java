@@ -1,7 +1,9 @@
 package it.unige.dibris.TExpRVJade;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import it.dibris.unige.TExpSWIPrologConnector.texp.TraceExpression;
@@ -36,6 +38,11 @@ public abstract class Monitor extends ToolAgent {
 	private List<AgentController> agents;
 	
 	/**
+	 * Agents checked by this monitor (names for SWI-Prolog initialize predicate)
+	 */
+	private Set<String> roleSet;
+	
+	/**
 	 * Message GUI used by monitors to print all log information
 	 */
 	private static ErrorMessageGUI errorMsgGUI = new ErrorMessageGUI();
@@ -61,13 +68,14 @@ public abstract class Monitor extends ToolAgent {
 	 * 
 	 * @throws NullPointerException if arguments are null
 	 */
-	public Monitor(String name, TraceExpression tExp, List<AgentController> agents) {
+	public Monitor(String name, TraceExpression tExp, List<AgentController> agents, Set<String> roleSet) {
 		if(name == null || tExp == null || agents == null){
 			throw new NullPointerException();
 		}
 		this.name = name;
 		this.tExp = tExp;
 		this.agents = new ArrayList<>(agents);
+		this.setRoleSet(new HashSet<>(roleSet));
 		for(AgentController agent : agents){
 			try {
 				Monitor.mapToMonitor.putIfAbsent(agent.getName(), this);
@@ -136,5 +144,19 @@ public abstract class Monitor extends ToolAgent {
 	public abstract void setCallbackWhenFail(Callback callback);
 
 	public abstract void addMessage(Channel channel, ACLMessage msg, boolean sent);
+
+	/**
+	 * @return the roleSet
+	 */
+	public Set<String> getRoleSet() {
+		return roleSet;
+	}
+
+	/**
+	 * @param roleSet the roleSet to set
+	 */
+	public void setRoleSet(Set<String> roleSet) {
+		this.roleSet = roleSet;
+	}
 	
 }

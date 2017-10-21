@@ -47,6 +47,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.jpl7.Query;
 
 import it.dibris.unige.TExpSWIPrologConnector.Connector;
+import it.dibris.unige.TExpSWIPrologConnector.exceptions.InitializationException;
 import it.dibris.unige.TExpSWIPrologConnector.texp.TraceExpression;
 import it.unige.dibris.TExpRVJade.Callback;
 import it.unige.dibris.TExpRVJade.Channel;
@@ -94,8 +95,8 @@ import jade.wrapper.AgentController;
 /* public class Sniffer */
 public class Sniffer extends Monitor {
 	
-	public Sniffer(String name, TraceExpression tExp, java.util.List<AgentController> agents) {
-		super(name, tExp, agents);
+	public Sniffer(String name, TraceExpression tExp, java.util.List<AgentController> agents, Set<String> roleSet) {
+		super(name, tExp, agents, roleSet);
 	}
 
 		FileWriter fstream;
@@ -269,7 +270,7 @@ public class Sniffer extends Monitor {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Given two strings determine if they match. We iterate over the match
 	 * expression string from left to right as follows:
@@ -473,7 +474,8 @@ public class Sniffer extends Monitor {
 		Query q1 = new Query(t1);
                 q1.hasSolution();
               */  
-         Connector.initialize(getTraceExpression(), arguments[0].toString(), monitorID);       
+        
+        Connector.initialize(getTraceExpression(), arguments[0].toString(), monitorID, getRoleSet());       
 
                 // Requires refactoring
                 int expected_args = 3;

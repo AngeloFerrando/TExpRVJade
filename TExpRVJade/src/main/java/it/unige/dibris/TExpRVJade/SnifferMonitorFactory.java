@@ -40,7 +40,7 @@ public class SnifferMonitorFactory {
 		if(tExp == null || agents == null){
 			throw new NullPointerException("tExp and agents must not be null");
 		}
-		Sniffer s = new Sniffer("sniffer_monitor_centralized", tExp, agents);
+		Sniffer s = new Sniffer("sniffer_monitor_centralized", tExp, agents, tExp.involvedRoles());
 		/*Query query = new Query("involved(InvolvedAgents, " + tExp.getProtocolName() + ")");
 		String agentsStr;
 		if(!query.hasSolution()){
@@ -80,7 +80,7 @@ public class SnifferMonitorFactory {
 		if(tExp == null || container == null || agents == null){
 			throw new NullPointerException("tExp, container and agents must not be null");
 		}
-		Sniffer s = new Sniffer("sniffer_monitor_centralized", tExp, agents);
+		Sniffer s = new Sniffer("sniffer_monitor_centralized", tExp, agents, tExp.involvedRoles());
 		/*Query query = new Query("involved(InvolvedAgents, " + tExp.getProtocolName() + ")");
 		String agentsStr;
 		if(!query.hasSolution()){
@@ -130,12 +130,12 @@ public class SnifferMonitorFactory {
 		}
 		if(pType == PartitionType.MinimalMonitoringSafe){
 			List<Partition<String>> mmsPartitions = tExp.getMinimalMonitoringSafePartitions(conditions);
-			int random = new Random().nextInt(mmsPartitions.size());
 			if(mmsPartitions.size() == 0){
 				throw new NoMinimalMonitoringSafePartitionFoundException();
 			} else if(mmsPartitions.size() == 1 && mmsPartitions.get(0).getNumberConstraints() == 1){
 				throw new DecentralizedPartitionNotFoundException();
 			} else{
+				int random = new Random().nextInt(mmsPartitions.size());
 				return createMonitors(mmsPartitions.get(random), tExp, agents);
 			}
 		} else{
@@ -179,10 +179,11 @@ public class SnifferMonitorFactory {
 			throw new NullPointerException("partition, tExp and agents must not be null");
 		}
 		List<Monitor> monitors = new ArrayList<>();
+		
 		for(Set<String> constraint : partition){
 			/* Sniffer creation */
 			String constraintAux = constraint.toString().replace("[", "").replace("]", "").replace(",", "_").replace(" ", "");
-			Sniffer s = new Sniffer("sniffer_monitor_decentralized_on_" + constraintAux, tExp, agents);
+			Sniffer s = new Sniffer("sniffer_monitor_decentralized_on_" + constraintAux, tExp, agents, constraint);
 			s.setArguments(new String[]{
 					"sniffer_monitor_decentralized_on_" + constraintAux + ".txt",
 					constraint.toString()
