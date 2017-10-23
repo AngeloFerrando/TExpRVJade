@@ -140,9 +140,9 @@ public class SnifferMonitorFactory {
 			}
 		} else{
 			Partition<String> msPartition = tExp.getRandomMonitoringSafePartition(conditions);
-			if(msPartition.getNumberConstraints() == 1){
-				throw new DecentralizedPartitionNotFoundException();
-			}	
+			//if(msPartition.getNumberConstraints() == 1){
+				//throw new DecentralizedPartitionNotFoundException();
+			//}	
 			return createMonitors(msPartition, tExp, agents);
 		}
 	}

@@ -91,24 +91,22 @@ public class Book_purchase {
 		
 		/* Decentralized monitors */
 		
-		/*for(Monitor m : SnifferMonitorFactory.createDecentralizedMonitors(tExp, partition, agents)){
-			container.acceptNewAgent(m.getMonitorName(), m).start();
-		}*/
-		
-		//SnifferMonitorFactory.createAndRunCentralizedMonitor(tExp, container, agents);
-		
 		List<Condition<String>> conditions = new ArrayList<>();
-		conditions.add(ConditionsFactory.createAtLeastNumberAgentsForConstraintCondition(2));
+		//conditions.add(ConditionsFactory.createAtLeastNumberAgentsForConstraintCondition(2));
+		//conditions.add(ConditionsFactory.createAtMostNumberAgentsForConstraintCondition(2));
+		conditions.add(ConditionsFactory.createMustBeTogetherCondition("alice", "barbara"));
+		conditions.add(ConditionsFactory.createMustBeSplitCondition("carol", "dave"));
+		conditions.add(ConditionsFactory.createMustBeSplitCondition("carol", "barbara"));
+		conditions.add(ConditionsFactory.createMustBeSplitCondition("carol", "frank"));
+		conditions.add(ConditionsFactory.createMustBeTogetherCondition("emily", "frank"));
 		
-		for(Monitor m : SnifferMonitorFactory.createDecentralizedMonitors(tExp, PartitionType.MinimalMonitoringSafe, conditions, agents)){
+		for(Monitor m : SnifferMonitorFactory.createDecentralizedMonitors(tExp, PartitionType.MonitoringSafe, conditions, agents)){
 			container.acceptNewAgent(m.getMonitorName(), m).start();
 		}
 		
 		Monitor.setErrorMessageGUIVisible(true);
 		
 		/* Channels creation */
-		//Channel.addChannel(new SimulatedChannel("email", 1));
-		//Channel.addChannel(new SimulatedChannel("whatsapp", 1));
 		
 		/* Run the agents */
 		aliceC.start();

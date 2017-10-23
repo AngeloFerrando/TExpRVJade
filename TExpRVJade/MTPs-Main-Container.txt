@@ -1,1 +1,1 @@
-http://angelos-mbp:7778/acc
+http://130.251.218.19:7778/acc
