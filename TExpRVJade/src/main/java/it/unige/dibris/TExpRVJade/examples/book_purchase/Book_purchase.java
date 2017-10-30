@@ -7,10 +7,9 @@ import java.util.List;
 import it.dibris.unige.TExpSWIPrologConnector.exceptions.DecentralizedPartitionNotFoundException;
 import it.dibris.unige.TExpSWIPrologConnector.JPL.JPLInitializer;
 import it.dibris.unige.TExpSWIPrologConnector.texp.TraceExpression;
+import it.dibris.unige.TExpSWIPrologConnector.decentralized.Partition;
 import it.dibris.unige.TExpSWIPrologConnector.decentralized.Condition;
 import it.dibris.unige.TExpSWIPrologConnector.decentralized.ConditionsFactory;
-import it.dibris.unige.TExpSWIPrologConnector.decentralized.Partition;
-import it.dibris.unige.TExpSWIPrologConnector.decentralized.PartitionType;
 import it.unige.dibris.TExpRVJade.Channel;
 import it.unige.dibris.TExpRVJade.Monitor;
 import it.unige.dibris.TExpRVJade.SimulatedChannel;
@@ -27,7 +26,7 @@ public class Book_purchase {
 	public static void main(String[] args) throws StaleProxyException, DecentralizedPartitionNotFoundException, IOException {
 		JPLInitializer.init();
 		
-		TraceExpression tExp = new TraceExpression("/Users/angeloferrando/Documents/runtime-EclipseApplication/book_shop/src-gen/book_purchase.pl");
+		TraceExpression tExp = new TraceExpression("/Users/angeloferrando/Documents/workspace/rivertools_test/src-gen/book_purchase.pl");
 		
 		/* Initialize JADE environment */
 		jade.core.Runtime runtime = jade.core.Runtime.instance();
@@ -67,44 +66,17 @@ public class Book_purchase {
 		AgentController frankC = container.acceptNewAgent("frank", frank);
 		agents.add(frankC);
 		/* Create and Set the partition */
-		List<List<String>> groups = new ArrayList<>();
-		List<String> group;
-		group = new ArrayList<>();
-		groups.add(group);
-		group.add("alice");
-		group = new ArrayList<>();
-		groups.add(group);
-		group.add("barbara");
-		group = new ArrayList<>();
-		groups.add(group);
-		group.add("carol");
-		group = new ArrayList<>();
-		groups.add(group);
-		group.add("dave");
-		group = new ArrayList<>();
-		groups.add(group);
-		group.add("emily");
-		group = new ArrayList<>();
-		groups.add(group);
-		group.add("frank");
-		Partition<String> partition = new Partition<>(groups);
+		List<Condition<String>> constraints = new ArrayList<>();
+		constraints.add(ConditionsFactory.createNumberAgentsForConstraintCondition(1,2));				
+		Partition<String> partition = tExp.getRandomMonitoringSafePartition(constraints);
 		
 		/* Decentralized monitors */
 		
-		List<Condition<String>> conditions = new ArrayList<>();
-		//conditions.add(ConditionsFactory.createAtLeastNumberAgentsForConstraintCondition(2));
-		//conditions.add(ConditionsFactory.createAtMostNumberAgentsForConstraintCondition(2));
-		conditions.add(ConditionsFactory.createMustBeTogetherCondition("alice", "barbara"));
-		conditions.add(ConditionsFactory.createMustBeSplitCondition("carol", "dave"));
-		conditions.add(ConditionsFactory.createMustBeSplitCondition("carol", "barbara"));
-		conditions.add(ConditionsFactory.createMustBeSplitCondition("carol", "frank"));
-		conditions.add(ConditionsFactory.createMustBeTogetherCondition("emily", "frank"));
-		
-		for(Monitor m : SnifferMonitorFactory.createDecentralizedMonitors(tExp, PartitionType.MonitoringSafe, conditions, agents)){
+		for(Monitor m : SnifferMonitorFactory.createDecentralizedMonitors(tExp, partition, agents)){
 			container.acceptNewAgent(m.getMonitorName(), m).start();
 		}
 		
-		Monitor.setErrorMessageGUIVisible(true);
+		Monitor.setErrorMessageGUIVisible(false);
 		
 		/* Channels creation */
 		
