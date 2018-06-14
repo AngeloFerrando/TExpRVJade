@@ -21,7 +21,7 @@ public class PingPongMain {
 	public static void main(String[] args) throws StaleProxyException, DecentralizedPartitionNotFoundException, IOException {
 		JPLInitializer.init();
 
-		TraceExpression tExp = new TraceExpression("/Users/angeloferrando/Documents/runtime-EclipseApplication/ping_pong/src-gen/ping_pong.pl");
+		TraceExpression tExp = new TraceExpression("/Users/angeloferrando/Documents/workspace/rivertools_test/src-gen/ping_pong.pl");
 
 		/* Initialize JADE environment */
 		jade.core.Runtime runtime = jade.core.Runtime.instance();
@@ -31,13 +31,17 @@ public class PingPongMain {
 		List<AgentController> agents = new ArrayList<>();
 
 		//Agent alice = new PingAgent();
-		Agent alice = new ClientAgentMappedInPingAgent();
-		alice.setArguments(new String[] {
+		//Agent alice = new ClientAgentMappedInPingAgent();
+		MsgAgent alice = new MsgAgent();
+		alice.setArguments(new Object[] {
+				"bob", true
 		});
 		AgentController aliceC = container.acceptNewAgent("alice", alice);
 		agents.add(aliceC);
-		Agent bob = new PongAgent();
-		bob.setArguments(new String[] {
+		//Agent bob = new PongAgent();
+		MsgAgent bob = new MsgAgent();
+		bob.setArguments(new Object[] {
+				"alice", false
 		});
 		AgentController bobC = container.acceptNewAgent("bob", bob);
 		agents.add(bobC);

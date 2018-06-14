@@ -44,6 +44,14 @@
   </dependencies>
   
   <build>
+   <resources>
+     <resource>
+       <directory>/Users/angeloferrando/git/TExpRVJade/TExpRVJade/src/main/java/it/unige/dibris/TExpRVJade/monitor/images</directory>
+       </resource>
+       <resource>
+       <directory>/Users/angeloferrando/git/TExpRVJade/TExpRVJade/src/main/java/it/unige/dibris/TExpRVJade/monitor/gui/images</directory>
+       </resource>
+   </resources>
 		<plugins>
 		<plugin>
 	        <artifactId>maven-assembly-plugin</artifactId>

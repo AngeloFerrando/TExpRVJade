@@ -67,7 +67,9 @@ public class Book_purchase {
 		agents.add(frankC);
 		/* Create and Set the partition */
 		List<Condition<String>> constraints = new ArrayList<>();
-		constraints.add(ConditionsFactory.createNumberAgentsForConstraintCondition(1,2));				
+		constraints.add(ConditionsFactory.createNumberAgentsForConstraintCondition(1,3));				
+		constraints.add(ConditionsFactory.createMustBeSplitCondition("alice","barbara"));
+		constraints.add(ConditionsFactory.createMustBeTogetherCondition("carol","dave"));
 		Partition<String> partition = tExp.getRandomMonitoringSafePartition(constraints);
 		
 		/* Decentralized monitors */
