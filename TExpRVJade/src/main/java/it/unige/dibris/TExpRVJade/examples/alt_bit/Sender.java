@@ -12,10 +12,10 @@ public class Sender extends Agent{
 	@Override
 	protected void setup() {
 		super.setup();
-		String[] args = (String[]) getArguments();
-		String receiver = args[0];
-		String content = args[1];
-		int waitMilliseconds = Integer.valueOf(args[2]);
+		final String[] args = (String[]) getArguments();
+		final String receiver = args[0];
+		final String content = args[1];
+		final int waitMilliseconds = Integer.valueOf(args[2]);
 		
 		addBehaviour(new CyclicBehaviour(this) {
 			
