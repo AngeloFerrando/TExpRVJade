@@ -39,21 +39,26 @@
 	<dependency>
 	    <groupId>com.github.AngeloFerrando</groupId>
 	    <artifactId>TExpSWIPrologConnector</artifactId>
-	    <version>1.4.6</version>
+	    <version>1.5</version>
 	</dependency>
   </dependencies>
   
   <build>
-   <resources>
-     <resource>
-       <directory>/Users/angeloferrando/git/TExpRVJade/TExpRVJade/src/main/java/it/unige/dibris/TExpRVJade/monitor/images</directory>
-       </resource>
-       <resource>
-       <directory>/Users/angeloferrando/git/TExpRVJade/TExpRVJade/src/main/java/it/unige/dibris/TExpRVJade/monitor/gui/images</directory>
-       </resource>
-   </resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.1</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
-		<plugin>
+			<plugin>
 	        <artifactId>maven-assembly-plugin</artifactId>
 	        <executions>
 	          <execution>
@@ -93,4 +98,5 @@
 	      </plugin>
 		</plugins>
 	</build>
+ 
 </project>

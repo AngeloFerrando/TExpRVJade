@@ -90,7 +90,7 @@ public class GuiProperties{
     Icon i = MyDefaults.getIcon(key);
         if (i == null){
 	  	System.out.println("Mistake with Icon");
-		  System.exit(-1);
+		  // System.exit(-1);
 		  return null;
 		}
 	  else
